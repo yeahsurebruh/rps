@@ -1,4 +1,47 @@
 .title {
     display: flex;
     justify-content: center;
+    background-color: pink;
+}
+
+.scoreboard {
+    display: flex;
+    justify-content: space-around;
+    margin: 5px 0px;
+    padding: 5px 0px;
+    border: 2px;
+    border-style: solid;
+    border-color: black;
+    /* background-color: blueviolet; */
+}
+
+.scorecard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 5px 0px;
+    padding: 0px 10px;
+    border: 2px;
+    border-style: solid;
+    border-color: black;
+    /* background-color: brown; */
+}
+
+.roundCount {
+    text-align: center;
+}
+
+.choices {
+    display: flex;
+    justify-content: space-around;
+}
+
+.choices button {
+    padding: 8px 6px;
+}
+
+.battlefield {
+    margin: 25px;
+    text-align: center;
+    font-size: 20px;
 }
