@@ -1,73 +1,53 @@
-const choices = ["Rock", "Paper", "Scissors"];
-const num_choices = 3;
+const choices = ['Rock', 'Paper', 'Scissors'];
 
-let human_score = 0;
-let computer_score = 0;
+const beats = {
+    'Rock': 'Scissors',
+    'Paper': 'Rock',
+    'Scissors': 'Paper'
+};
 
-function getComputerChoice (arr, len){
-    return arr[Math.floor(Math.random() * len)];
+const humanScore = document.querySelector("#human .scoreCount");
+const computerScore = document.querySelector("#computer .scoreCount");
+
+humanScore.textContent = 0;
+computerScore.textContent = 0;
+
+const roundCounter = document.querySelector(".roundCount");
+
+function roundCountInc (text){
+    let words = text.split(" ");
+    words[1] = (Number(words[1])+1).toString();
+    const new_text = words.join(" ");
+    return new_text;
 }
 
-//console.log(getComputerChoice(choices, num_choices));
+const battleText = document.querySelector(".battlefield");
 
-function getHumanChoice (){
-    return prompt("Enter choice");
+const buttons = document.querySelectorAll(".choices > button");
+
+function getComputerChoice(){
+    return choices[Math.floor(Math.random()*(choices.length))];
 }
 
-function winCheck(ch1, ch2){ // returns 1 if ch1 wins,  -1 if ch2 wins,  0 if draw
-    if(ch1 == ch2)
-        return 0;
-    else if(ch1 == "Rock"){
-        if(ch2 == "Paper"){
-            return -1;
-        }
-        else{
-            return 1;
-        }
+function playRound(humanChoice){
+    const computerChoice = getComputerChoice();
+    if(humanChoice === computerChoice){
+        battleText.textContent = `Draw, both of you played ${humanChoice}`;
     }
-    else if(ch1 == "Paper"){
-        if(ch2 == "Scissors"){
-            return -1;
-        }
-        else {
-            return 1;
-        }
+    else if(beats[humanChoice] === computerChoice){
+        battleText.textContent = `You win, you played ${humanChoice} and computer played ${computerChoice}`;
+        humanScore.textContent = Number(humanScore.textContent) + 1;
     }
     else{
-        if(ch1 == "Rock"){
-            return -1;
-        }
-        else {
-            return 1;
-        }
+        battleText.textContent = `You lose, computer played ${computerChoice} and you played ${humanChoice}`;
+        computerScore.textContent = Number(computerScore.textContent) + 1;
     }
+    roundCounter.textContent = roundCountInc(roundCounter.textContent);
 }
 
-function playGame(){
-    let human_choice, computer_choice, temp;
-    while(human_score < 3 && computer_score < 3){
-        human_choice = getHumanChoice();
-        computer_choice = getComputerChoice(choices, num_choices);
-        temp = winCheck(human_choice, computer_choice);
-        if(temp == 0){
-            alert(`Computer Played: ${computer_choice}\nYou played: ${human_choice}\nDraw!`);
-        }
-        else if(temp == 1){
-            human_score++;
-            alert(`Computer Played: ${computer_choice}\nYou played: ${human_choice}\nYou win!`);
-        }
-        else{
-            computer_score++;
-            alert(`Computer Played: ${computer_choice}\nYou played: ${human_choice}\nYou lose.`);
-        }
-        alert(`Computer Score: ${computer_score}\nYour Score: ${human_score}`);
-    }
-    if(human_score==3){
-        alert("Yayy you won the BO5");
-    }
-    else{
-        alert("Oopsie you lost the BO5");
-    }
-}
-//console.log(getHumanChoice());
-playGame();
+buttons.forEach(item => {
+    item.addEventListener("click", ()=>{
+        const humanChoice = item.textContent;
+        playRound(humanChoice);
+    })
+});
